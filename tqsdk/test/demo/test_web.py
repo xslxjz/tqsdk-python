@@ -47,10 +47,11 @@ class WebTest(unittest.TestCase):
             exe_path = os.path.join(os.getenv("GeckoWebDriver"), "geckodriver.exe")
             driver = webdriver.Firefox(executable_path=exe_path)
         elif sys.platform.startswith("linux"):
-            exe_path = os.path.join(os.getcwd(), "geckodriver")
             opts = FirefoxOptions()
             opts.headless = True
-            driver = webdriver.Firefox(executable_path=exe_path, options=opts)
+            driver = webdriver.Firefox(executable_path=os.getenv("GECKOWEBDRIVER"), options=opts)
+        elif sys.platform.startswith("darwin"):
+            driver = webdriver.Chrome()
         else:
             return
         run_for_driver(driver, self)
@@ -60,15 +61,11 @@ class WebTest(unittest.TestCase):
             exe_path = os.path.join(os.getenv("ChromeWebDriver"), "chromedriver.exe")
             driver = webdriver.Chrome(executable_path=exe_path)
         elif sys.platform.startswith("linux"):
-            exe_path = os.path.join(os.getcwd(), "chromedriver")
             opts = ChromeOptions()
             opts.headless = True
-            driver = webdriver.Chrome(executable_path=exe_path, options=opts)
+            driver = webdriver.Chrome(executable_path=os.getenv("CHROMEWEBDRIVER"), options=opts)
         elif sys.platform.startswith("darwin"):
-            exe_path = os.path.join(os.getcwd(), "chromedriver")
-            opts = ChromeOptions()
-            # opts.headless = True
-            driver = webdriver.Chrome(executable_path=exe_path, options=opts)
+            driver = webdriver.Chrome()
         else:
             return
         run_for_driver(driver, self)
